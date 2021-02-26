@@ -1,14 +1,30 @@
-# TODO: your reusable general-purpose functions here
+
+"""
+Charles Walker 
+CPSC 322
+Section 02
+PA2 
+"""
 import math 
 import numpy as np
 import importlib
 import mypytable
+import copy
 importlib.reload(mypytable)
 from mypytable import MyPyTable
 
 def conv_num(mypy):
     mypy.convert_to_numeric
     pass
+
+def get_column(table, header, col_name):
+    col_index = header.index(col_name)
+    col = []
+    for row in table: 
+        # ignore missing values ("NA")
+        if row[col_index] != "NA":
+            col.append(row[col_index])
+    return col
 
 def del_row(mypy, index):
     row = mypy.data[index]
@@ -49,9 +65,9 @@ def get_freq_str(mypy, col_name):
 
     return values, counts
 
-def group_by(table, header, group_by_col_name):
-    col = get_column(table, header, group_by_col_name)
-    col_index = header.index(group_by_col_name)
+def group_by(mypy, col_name):
+    col = get_col(mypy, col_name)
+    col_index = mypy.column_names.index(col_name)
     
     # we need the unique values for our group by column
     group_names = sorted(list(set(col))) # e.g. 74, 75, 76, 77
@@ -59,7 +75,7 @@ def group_by(table, header, group_by_col_name):
     
     # algorithm: walk through each row and assign it to the appropriate
     # subtable based on its group_by_col_name value
-    for row in table:
+    for row in mypy.data:
         group_by_value = row[col_index]
         # which subtable to put this row in?
         group_index = group_names.index(group_by_value)
@@ -115,4 +131,34 @@ def compute_covar(x, y):
     
     cov = sum([(x[i] - mean_x) * (y[i] - mean_y) for i in range(len(x))]) / len(x)
     return cov
-    
+
+def binary_freq(mypy, col_name):
+    mypy.convert_to_numeric()
+    col = get_col(mypy, col_name)
+    freq = 0
+    for i in range(len(col)):
+        if col[i] == 1:
+            freq += 1
+
+    return col_name, freq
+
+def percent_compare(mypy, col_names, total, get_sum=True):
+    conv_num(mypy)
+    percentages = []
+    if get_sum == False:
+        for i in range(len(col_names)):
+            col = get_col(mypy, col_names[i])
+            col2 = []
+            for j in range(len(col)):
+                if col[j] != 0:
+                    col2.append(col[j])
+            col_total = len(col2)
+            prcnt = col_total / total
+            percentages.append(prcnt)
+    if get_sum == True:
+        for i in range(len(col_names)):
+            col = get_col(mypy, col_names[i])
+            col_total = sum(col)
+            prcnt = col_total / total
+            percentages.append(prcnt)
+    return col_names, percentages

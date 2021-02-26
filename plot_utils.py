@@ -1,9 +1,13 @@
-# TODO: your reusable plotting functions here
+"""
+Charles Walker 
+CPSC 322
+Section 02
+PA2 
+"""
 import matplotlib.pyplot as plt
 import utils
 
-def bar_chart(mypy, col_name):
-    x, y = utils.get_freq_str(mypy, col_name)
+def bar_chart(x, y, col_name):
     plt.figure()
     fig, ax = plt.subplots()
     plt.bar(x, y)
@@ -78,4 +82,22 @@ def trendline(mypy, col1, col2):
     string = f"Coef: {r} Cov: {cov}"
     plt.suptitle(string, fontsize=10)
     plt.plot([min(x), max(x)], [m * min(x) + b, m * max(x) + b], c="r", lw=5); 
+    plt.show()
+    
+def pie_chart(x, y):
+    plt.figure()
+    plt.pie(y, labels=x, autopct="%1.1f%%")
+    plt.show() 
+    
+
+def box_plot(distributions, labels):
+
+    plt.figure()
+    plt.boxplot(distributions)
+
+    plt.xticks(list(range(1, len(labels) + 1)), labels)
+
+    plt.annotate("$\mu=100$", xy=(1.5, 100), xycoords="data", horizontalalignment="center")
+    plt.annotate("$\mu=100$", xy=(0.5, 0.5), xycoords="axes fraction", 
+                 horizontalalignment="center", color="blue")
     plt.show()

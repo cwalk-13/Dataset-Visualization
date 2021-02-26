@@ -71,13 +71,14 @@ class MyPyTable:
         Notes:
             Raise ValueError on invalid col_identifier
         """
-
+        col_index = 0
         if isinstance(col_identifier, str):
             col_index = self.column_names.index(col_identifier)
         elif isinstance(col_identifier, int):
             col_index = col_identifier
         else:
             print("invalid Column identifier")
+            pass
         
         col = []
 
