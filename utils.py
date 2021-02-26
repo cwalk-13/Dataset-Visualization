@@ -6,6 +6,10 @@ import mypytable
 importlib.reload(mypytable)
 from mypytable import MyPyTable
 
+def conv_num(mypy):
+    mypy.convert_to_numeric
+    pass
+
 def del_row(mypy, index):
     row = mypy.data[index]
     mypy.drop_rows([row])
@@ -96,7 +100,19 @@ def compute_slope_intercept(x, y):
     mean_y = np.mean(y)
     
     m = sum([(x[i] - mean_x) * (y[i] - mean_y) for i in range(len(x))])
-    pass
+    b = mean_y - m * mean_x
+    return m, b 
 
-def dummy_function2():
-    pass
+def compute_corr_coef(x, y):
+    mean_x = np.mean(x)
+    mean_y = np.mean(y)
+    r = sum([(x[i] - mean_x) * (y[i] - mean_y) for i in range(len(x))]) / sum([((x[i] - mean_x)**2) * ((y[i] - mean_y)**2) for i in range(len(x))])
+    return r
+
+def compute_covar(x, y):
+    mean_x = np.mean(x)
+    mean_y = np.mean(y)
+    
+    cov = sum([(x[i] - mean_x) * (y[i] - mean_y) for i in range(len(x))]) / len(x)
+    return cov
+    
